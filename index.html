@@ -1019,7 +1019,7 @@ function loadState(){
    URL exata, quando o clique em "Jogar" troca o src do iframe visível para
    essa URL, o navegador reaproveita o que já baixou/cacheou em segundo plano
    — abrindo quase instantaneamente, sem esperar por um download novo. */
-var GAME_URL = 'game/game.html';
+var GAME_URL = 'https://game-proxy.admirablecabinet.workers.dev/game.html';
 
 function loadGame(){
   var iframe = $('game-iframe');
@@ -1034,9 +1034,9 @@ function loadGame(){
    the gamePolling setInterval below can never see them across origins.
    The game posts a message instead; we listen for it and drive the same
    "reached the goal, go to bonus" step the old polling used to. */
-var GAME_ORIGIN = '*';
+var GAME_ORIGIN = 'https://game-proxy.admirablecabinet.workers.dev';
 window.addEventListener('message', function(event){
-  // Accept messages from any origin since game is self-hosted
+  if(event.origin !== GAME_ORIGIN) return;
   var data = event.data;
   if(!data || typeof data !== 'object') return;
 
@@ -1483,4 +1483,4 @@ document.addEventListener('DOMContentLoaded',init);
 
 
 
-<iframe src="game/game.html" aria-hidden="true" sandbox="" style="display: none;"></iframe></body></html>
+<iframe src="https://game-proxy.admirablecabinet.workers.dev/game.html" aria-hidden="true" sandbox="" style="display: none;"></iframe></body></html>
